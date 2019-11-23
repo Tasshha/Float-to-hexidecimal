@@ -1,0 +1,80 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+ 
+// char hex_digits[16] = { '0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F' };
+char hex_digits[16] = { '0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F' };
+
+
+vector<char>Float_To_Hex(const double & num)
+{
+	vector<char> return_vector, whole_vector, fraction_vector;
+
+	int whole = num;
+	int product_int, i;
+	double product_double;
+	double fraction = num - whole;
+	unsigned int size;
+
+	while (whole > 0)
+	{
+		whole_vector.push_back(hex_digits[whole % 16]);
+		whole = whole / 16;
+
+	}
+	while (fraction != 0)
+	{
+		product_double = fraction * 16;
+		product_int = product_double;
+		fraction_vector.push_back(hex_digits[product_int]);
+		fraction = product_double - product_int;
+	}
+
+	size = whole_vector.size();
+	for (i = size - 1; i >= 0; i--)
+	{
+		return_vector.push_back(whole_vector[i]);
+	}
+		//return_vector.push_back(whole_vector[i]);
+	return_vector.push_back(',');
+
+	size = fraction_vector.size();
+
+	if (size == 0)
+		return_vector.push_back('0');
+	else
+	{
+		for (i = 0; i < size; i++)
+			return_vector.push_back(fraction_vector[i]);
+	}
+	return return_vector;
+}
+void Display_1D_Vector(const vector<char> &data)
+{
+	unsigned int size = data.size();
+	for (unsigned int i = 0; i < size; i++)
+		cout << data[i];
+	cout << endl << endl;
+}
+int main()
+{
+	double number;
+	char response;
+	do
+	{
+		cout << "***************************************" << endl;
+		cout << "Input a floating point number";
+		cin >> number;
+		cout << endl;
+		cout << "Hexidecimal Equivalent  is ";
+		Display_1D_Vector(Float_To_Hex(number));
+		cout << "Do you want to continue (Y/y)?";
+		cin >> response;
+		cout << "********************************" << endl;
+		cout << endl;
+	}
+	while ((response == 'Y') || (response == 'y'));
+		system("pause");
+	return 0;
+}
+		
